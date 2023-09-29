@@ -1,10 +1,16 @@
+import os
 from pypdf import PdfReader, PdfWriter
 
-reader = PdfReader("var/data/example.pdf")
+directory = "var/data/"
+ext = ".pdf"
+filename = input("Enter filename: ")
+filepath = directory + filename + ext
+if not os.path.isfile(filepath):
+    raise FileNotFoundError("File not found")
+reader = PdfReader(filepath)
 writer = PdfWriter()
-number_of_pages = len(reader.pages)
 page = reader.pages[0]
-
-writer.add_page(reader.pages[0])
-with open("var/data/example-modified.pdf", "wb") as fp:
+writer.add_page(page)
+with open(directory + filename + '.modified' + ext, "wb") as fp:
     writer.write(fp)
+print(f"Modified result in {filename + '.modified' + ext}")
